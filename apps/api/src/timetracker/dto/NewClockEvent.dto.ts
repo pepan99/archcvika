@@ -1,5 +1,11 @@
-import { EventType } from 'src/timetracker/timetracker.model';
+import { Injectable } from "@nestjs/common";
+import { EventType } from "../timetracker.model";
+import {IsNotEmpty} from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
-export type NewClockEventDto = {
-  event: EventType;
+@Injectable()
+export class NewClockEventDto {
+  @IsNotEmpty()
+  @ApiProperty()
+  public eventType: EventType;
 };

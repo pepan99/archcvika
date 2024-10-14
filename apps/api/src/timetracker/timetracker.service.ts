@@ -1,21 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { Employee } from 'src/employees/employees.model';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { EmployeesService } from 'src/employees/employees.service';
-import { ClockEvent, EventType } from 'src/timetracker/timetracker.model';
+import type { ClockEvent, EventType } from 'src/timetracker/timetracker.model';
 
 @Injectable()
 export class TimetrackerService {
+  private clockEvents: ClockEvent[] = [];
   constructor(private readonly employeesService: EmployeesService) {}
-  getAll(): Employee[] {
-    return this.employeesService.getAll();
+  getAll(): ClockEvent[] {
+    return this.clockEvents;
   }
 
   createClockEvent(employeeId: string, event: EventType): ClockEvent {
     const employee = this.employeesService.get(employeeId);
 
     if (!employee) {
-      console.error('Given employeeID does not exist.');
-      return;
+      throw new NotFoundException(`Employee with id: ${employeeId} does not exist`);
     }
 
     const newEvent: ClockEvent = {
@@ -24,6 +23,7 @@ export class TimetrackerService {
       time: new Date(),
       event: event,
     };
+    this.clockEvents.push(newEvent);
     return newEvent;
   }
 }

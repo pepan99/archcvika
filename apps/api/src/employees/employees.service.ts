@@ -3,22 +3,20 @@ import { Employee } from './employees.model';
 
 @Injectable()
 export class EmployeesService {
-  getAll(): Employee[] {
-    const employees: Employee[] = [
+  private employees: Employee[] = [
       {
         id: '1',
         firstName: 'John',
         lastName: 'Antonin',
-      },
-    ];
+      }
+  ];
+  getAll(): Employee[] {
+    const employees = this.employees;
     return employees;
   }
 
-  get(id: string): Employee {
-    return {
-      id: id,
-      firstName: 'John',
-      lastName: 'Antonin',
-    };
+  get(employeeId: string): Employee {
+    const employee = this.employees.find((employee)=> employee.id === employeeId);
+    return employee;
   }
 }

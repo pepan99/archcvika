@@ -12,6 +12,7 @@ async function bootstrap() {
     .setDescription('Timetracker description')
     .setVersion('1.0')
     .addTag('employee tracking')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/swagger', app, document);
@@ -22,4 +23,5 @@ async function bootstrap() {
   }
   await app.listen(3000);
 }
+
 bootstrap();
